@@ -19,6 +19,7 @@ EXPANDED_WEIGHT = 0.001
 space = spaces.Box(low=-math.inf, high=math.inf, shape=(NEW_INPUT_SIZE,))
 policy.observation_space = space
 model.observation_space = space
+# Borrowed code from @QuadBlueShadow
 old_layer = policy.mlp_extractor.policy_net[0]
 new_layer = torch.nn.Linear(NEW_INPUT_SIZE, policy.mlp_extractor.policy_net[0].out_features)
 for j in range(len(new_layer.weight)):
