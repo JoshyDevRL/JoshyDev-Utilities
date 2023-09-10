@@ -39,7 +39,7 @@ class CustomObs(ObsBuilder):
         enemies = []
 
         for other in state.players:
-            if other.car_id != player.car_id:
+            if other.car_id == player.car_id:
                 continue
 
             if other.team_num == player.team_num:
