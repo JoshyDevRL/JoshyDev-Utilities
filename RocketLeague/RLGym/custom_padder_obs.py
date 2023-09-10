@@ -34,33 +34,34 @@ class CustomObs(ObsBuilder):
                pads]
 
         player_car = self._add_player_to_obs(obs, player, ball, inverted)
-
-        allies = []
-        enemies = []
-
-        for other in state.players:
-            if other.car_id == player.car_id:
-                continue
-
-            if other.team_num == player.team_num:
-                allies.append(other)
-            else:
-                enemies.append(other)
-
-        self._add_player(obs, player_car, enemies[0], ball, inverted)
-        enemies.pop(0)
-        for i in range(self.team_size-1):
-            if len(allies) == i:
+        if player.team_num == -1:
+            for i in range(5):
                 self._add_dummy(obs)
-            else:
-                self._add_player(obs, player_car, allies[i], ball, inverted)
-            
-            if len(enemies) == i:
-                self._add_dummy(obs)
-            else:
-                self._add_player(obs, player_car, enemies[i], ball, inverted)
+        
+        else:
+            allies = []
+            enemies = []
+
+            for other in state.players:
+                if other.car_id == player.car_id:
+                    continue
+                if other.team_num == player.team_num:
+                    allies.append(other)
+                else:
+                    enemies.append(other)
+
+            self._add_player(obs, player_car, enemies[0], ball, inverted)
+            enemies.pop(0)
+            for i in range(self.team_size-1):
+                if len(allies) == i:
+                    self._add_dummy(obs)
+                else:
+                    self._add_player(obs, player_car, allies[i], ball, inverted)
                 
-
+                if len(enemies) == i:
+                    self._add_dummy(obs)
+                else:
+                    self._add_player(obs, player_car, enemies[i], ball, inverted)
         return np.concatenate(obs)
 
     def _add_player_to_obs(self, obs: List, player: PlayerData, ball: PhysicsObject, inverted: bool):
