@@ -53,12 +53,12 @@ class CustomObs(ObsBuilder):
             self._add_player(obs, player_car, enemies[0], ball, inverted)
             enemies.pop(0)
             for i in range(self.team_size-1):
-                if len(allies) == i:
+                if len(allies) >= i:
                     self._add_dummy(obs)
                 else:
                     self._add_player(obs, player_car, allies[i], ball, inverted)
                 
-                if len(enemies) == i:
+                if len(enemies) >= i-1:
                     self._add_dummy(obs)
                 else:
                     self._add_player(obs, player_car, enemies[i], ball, inverted)
